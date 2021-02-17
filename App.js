@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import AppLoading from "expo-app-loading";
 import { Image, Text } from "react-native";
 import { Asset } from "expo-asset";
+import { Ionicons } from "@expo/vector-icons";
+import * as Font from "expo-font";
 
 const cacheImages = (images) =>
   images.map((image) => {
@@ -12,15 +14,20 @@ const cacheImages = (images) =>
     }
   });
 
+const cacheFonts = (fonts) => fonts.map((font) => Font.loadAsync(font));
+
 export default function App() {
   const [isReady, setIsReady] = useState(false);
   const handleFinish = () => setIsReady(true);
   const loadAssets = async () => {
     const images = [
-      require("./assets/loginBg.jfif"),
+      require("./assets/loginBg.png"),
       "https://logodix.com/logo/568751.png",
     ];
-    console.log(cacheImages(images)); //두개의 promise 가 출력됨 (이미지1, 이미지2)
+    const fonts = [Ionicons.font];
+    const imagePromises = cacheImages(images);
+    const fontPromises = cacheFonts(fonts);
+    return Promise.all([...fontPromises, ...imagePromises]);
   };
   return isReady ? (
     <Text>I'm ready</Text>
