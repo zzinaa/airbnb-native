@@ -4,6 +4,7 @@ import { Image, Text } from "react-native";
 import { Asset } from "expo-asset";
 import { Ionicons } from "@expo/vector-icons";
 import * as Font from "expo-font";
+import Gate from "./components/Gate";
 
 const cacheImages = (images) =>
   images.map((image) => {
@@ -27,10 +28,10 @@ export default function App() {
     const fonts = [Ionicons.font];
     const imagePromises = cacheImages(images);
     const fontPromises = cacheFonts(fonts);
-    return Promise.all([...fontPromises, ...imagePromises]);
+    return Promise.all([...fontPromises, ...imagePromises]); //폰트(icon)와 이미지의 Promise 가 담긴 배열 return
   };
   return isReady ? (
-    <Text>I'm ready</Text>
+    <Gate />
   ) : (
     <AppLoading
       onError={console.error}
